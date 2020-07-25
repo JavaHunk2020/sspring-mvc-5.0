@@ -62,7 +62,7 @@
 	 </header>
 	<div  class="container">
 	     <hr style="border-top: 5px solid rgba(103,58,183,1);"/>
-		<img id="studentImage"  src="img/student.png" class="semere"  style="height: 200px;">
+		<img id="studentImage"  src="${pageContext.request.contextPath}/img/student.png" class="semere"  style="height: 200px;">
 		<form name="authform"  action="auth" method="post">
 		<div  class="semere"   style="width: 50%">
 		 <span  id="message"  style="color:red;font-size: 16px;font-weight: bold;">
@@ -79,8 +79,10 @@
 		            <input type="password" name="password" class="form-control" id="password" onkeyup="clearMsg();">
 		             <br/>
 		<button type="button" class="btn btn-primary" onclick="validateLogin();">Sign In</button>
-		<a href="signup.jsp"><button type="button" class="btn btn-info">Sign Up</button></a>
-		<a href="fpassword"><button type="button" class="btn btn-primary">Forget Password</button></a>
+		<a href="${pageContext.request.contextPath}/signup"><button type="button" class="btn btn-info">Sign Up</button></a>
+		<a href="${pageContext.request.contextPath}/fpassword"><button type="button" class="btn btn-primary">Forget Password</button></a>
+		<a href="${pageContext.request.contextPath}/isignup"><button type="button" class="btn btn-warning">Sign Up Image</button></a>
+		
 		</div>
 		</form>
 	</div>

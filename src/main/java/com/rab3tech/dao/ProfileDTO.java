@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionBindingListener;
 
+import org.springframework.web.multipart.MultipartFile;
+
 
 @WebListener 
 public class ProfileDTO implements HttpSessionBindingListener{
@@ -20,8 +22,17 @@ public class ProfileDTO implements HttpSessionBindingListener{
 	private String photo;
 	private String qualification;
 	
-	
-	
+	//This is used to hold image
+	private MultipartFile file;
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
 
 	@Override
 	public int hashCode() {

@@ -30,4 +30,6 @@ public interface ProfileDao {
 
 	String findPasswordByUsernameOrEmail(String pusernameEmail);
 
+	String icreateSignup(ProfileDTO profileDTO);
+
 }

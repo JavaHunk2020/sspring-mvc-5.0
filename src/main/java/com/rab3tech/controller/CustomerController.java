@@ -93,6 +93,12 @@ public class CustomerController {
 			profileDao.updateSignup(profileDTO);
 			return "redirect:/profiles"; 
 	}
+	
+	
+	@GetMapping("/signup")
+	protected String showSignup() {
+		return "signup";
+	}
 
 	@PostMapping("/signup")
 	protected String signup(@ModelAttribute ProfileDTO profileDTO,Model model) {
@@ -120,6 +126,23 @@ public class CustomerController {
 		model.addAttribute("profileDTOs", profileDTOs);
 		model.addAttribute("listoptions", profileDao.findAllQualification());
 		return "profiles";
+	}
+	
+	@PostMapping("/isignup")
+	protected String isignup(@ModelAttribute ProfileDTO profileDTO,Model model) {
+		String password = Utils.generateRandomPassword(5);
+		//String username = email;
+		profileDTO.setPassword(password);
+		profileDTO.setUsername(profileDTO.getEmail());
+		//ProfileDTO profileDTO = new ProfileDTO(username, password, name, email, mobile, gender, photo, qualification);
+		profileDao.icreateSignup(profileDTO);
+		model.addAttribute("hmmmm", "Hi , " + profileDTO.getName() + " , you have done signup successfully!!!!!!!!!!!");
+		return "login";
+	}
+	
+	@GetMapping("/isignup")
+	protected String showSignupWithImage() {
+		return "isignup";
 	}
 
 }

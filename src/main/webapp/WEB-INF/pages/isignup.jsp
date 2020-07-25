@@ -36,7 +36,7 @@
     <div  class="container">
          <hr style="border-top: 5px solid rgba(103,58,183,1);"/>
         <img id="studentImage"  src="img/signup.png" class="semere"  style="height: 100px;">
-        <form  action="signup" method="post">
+        <form  action="${pageContext.request.contextPath}/isignup" method="post" enctype="multipart/form-data">
         <div  class="semere"   style="width: 50%">
          <span  id="message"  style="color:red;font-size: 16px;font-weight: bold;">
            <marquee scrolldelay="100" direction="right"> Signup Page</marquee>  
@@ -63,15 +63,14 @@
                     </select>
                     
                       <label for="photo">Photo</label>
-                    <input type="text" name="photo" class="form-control" >
+                      <input type="file" name="file" id="file" class="form-control" style="background-color: #d2f9ff;height: 40px;width: 250px;"/>
                      <br/>
                         <button type="submit" class="btn btn-info">Sign Up</button>
-                        
-                        <a href="login.jsp">
+                        <a href="${pageContext.request.contextPath}/auth">
                             <button type="button" class="btn btn-primary">Sign In</button>
                         </a>
      
-                    <a href="forgotPassword.jsp"><button type="button" class="btn btn-primary">Forget Password</button></a>
+                    <a href="${pageContext.request.contextPath}/fpassword"><button type="button" class="btn btn-primary">Forget Password</button></a>
             </div>
         </form>
     </div>
