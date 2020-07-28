@@ -32,4 +32,8 @@ public interface ProfileDao {
 
 	String icreateSignup(ProfileDTO profileDTO);
 
+	byte[] findPhotoByUsername(String pusername);
+
+	List<ProfileDTO> findAllWithPhoto();
+
 }

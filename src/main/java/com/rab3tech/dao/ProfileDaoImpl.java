@@ -134,6 +134,22 @@ public class ProfileDaoImpl implements ProfileDao {
 		return profileDTO;
 	}
 	
+	@Override
+	public byte[] findPhotoByUsername(String pusername) {
+		String sql = "select photo from iuser_login_tbl where username='"+pusername+"'";
+		byte[] photo=jdbcTemplate.queryForObject(sql,byte[].class);
+		return photo;
+	}
+	
+
+	@Override
+	public List<ProfileDTO> findAllWithPhoto() {
+		String sql = "select username,password,name,email,qualification,mobile,gender,createdate from iuser_login_tbl";
+		List<ProfileDTO> profileDTOs=jdbcTemplate.query(sql,new BeanPropertyRowMapper(ProfileDTO.class));
+		return profileDTOs;
+	}
+	
+	
 	
 	@Override
 	public String findPasswordByUsernameOrEmail(String pusernameEmail) {

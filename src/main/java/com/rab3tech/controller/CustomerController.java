@@ -21,6 +21,16 @@ public class CustomerController {
 
 	@Autowired
 	private ProfileDao profileDao;
+	
+	@GetMapping("/iprofiles")
+	public String iprofiles(Model model) {
+		// I need to fetch whole profiles data from database
+		List<ProfileDTO> profileDTOs = profileDao.findAllWithPhoto();
+		// adding profileDTO object inside request scope with namemagic
+		model.addAttribute("profileDTOs", profileDTOs);
+		model.addAttribute("listoptions", profileDao.findAllQualification());
+		return "iprofiles";
+	}
 
 	@GetMapping("/profiles")
 	public String profiles(Model model) {
