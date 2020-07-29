@@ -32,6 +32,6 @@
 	<!--THis bean helps to upload files on server  -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
 
-	<import resource="javahunk-dao.xml"/>
+<!-- 	<import resource="javahunk-dao.xml"/> -->
 
 </beans>        

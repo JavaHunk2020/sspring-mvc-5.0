@@ -23,6 +23,9 @@
    				            <a href="profiles">
    				  	        <button type="button" class="btn btn-success">Profiles</button>
    				  	        </a>
+   				  	         <a href="iprofiles">
+   				  	        <button type="button" class="btn btn-success">IProfiles</button>
+   				  	        </a>
    				  	        <button type="button" class="btn btn-warning">Block Times</button>
    				  	  <a href="logout"> 
    				  	        <button type="button" class="btn btn-warning">Logout</button>

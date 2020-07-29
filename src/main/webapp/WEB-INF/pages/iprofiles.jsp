@@ -10,6 +10,41 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   
+  <script type="text/javascript">
+  			
+          //jQuery Ready Hander
+  		  $(document).ready(function(){
+  				$("#imgInp").change(function() {
+  			  		readURL(this);
+  				});
+  		  }); 
+  
+          //Code which is used to preview the image 
+		  function readURL(input) {
+			  if (input.files && input.files[0]) {
+			    var reader = new FileReader();
+			    reader.onload = function(e) {
+			      $('#ppimage').attr('src', e.target.result);
+			    }
+			    reader.readAsDataURL(input.files[0]); // convert to base64 string
+			  }
+			}
+  
+       function openModal(username,email){
+    	    var imgURL="${pageContext.request.contextPath}/load/image?username="+username; 
+    	    $("#pimage").attr("src",imgURL);
+    	    $("#pemail").html(email);
+    	   
+    	    //This I need to edit the image when data is sent to the server from the client 
+    	    $("#username").val(username);
+    	    //Open modal as per it;s ID
+    	    $("#changeImageModel").modal("show");
+    	   
+       }      
+  
+  
+  </script>
+  
   <style>
 .zoom {
   transition: transform .9s; /* Animation */
@@ -33,7 +68,9 @@
    				            <a href="profiles">
    				  	        <button type="button" class="btn btn-success">Profiles</button>
    				  	        </a>
-   				  	        
+   				  	         <a href="iprofiles">
+   				  	        <button type="button" class="btn btn-success">IProfiles</button>
+   				  	        </a>
    				  	        <a href="loggedUser">
    				  	        <button type="button" class="btn btn-primary">Logged in User</button>
    				  	        </a>
@@ -93,6 +130,9 @@
         <td>${profileDTO.mobile}</td>
         <td>
          <img src="${pageContext.request.contextPath}/load/image?username=${profileDTO.username}"  style="height: 120px;"  class="zoom"/>
+          <a href="javascript:openModal('${profileDTO.username}','${profileDTO.email}');">
+          <img src="${pageContext.request.contextPath}/img/edita.png">
+          </a>
         </td>
         <td >
             <a href="editProfile?username=${profileDTO.username}">
@@ -107,6 +147,45 @@
     </tbody>
   </table>
     </div>
+    
+    
+    
+    <!-- The Modal Code -->
+<div class="modal" id="changeImageModel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form action="${pageContext.request.contextPath}/changeImage" method="post" enctype="multipart/form-data">
+       
+       <input type="hidden" name="username" id="username"/>
+       
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Profile Image</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <label>Email : <span id="pemail" style="font-size: 18px;font-weight: bold;"></span></label>
+        <hr/>
+        <marquee scrolldelay="100">
+        <img src="" id="pimage" style="height: 100px;">
+        
+        <img src="" id="ppimage" style="height: 100px;">
+        <input type="file" name="file" id="imgInp" class="form-control"/>
+        </marquee>
+        
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+       <button type="submit" class="btn btn-primary">Change Photo</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+</form>
+    </div>
+  </div>
+</div>
    
   
 </body>

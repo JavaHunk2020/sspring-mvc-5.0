@@ -13,7 +13,9 @@
         <!-- Scanning dao for creating bean of it -->
 	<context:component-scan base-package="com.rab3tech.dao" />
 	
-	<!-- Loading properties file in XML -->
+	<!-- Loading properties file in XML
+	  or inside spring container
+	 -->
 	<context:property-placeholder location="classpath:javahunk.properties"/>
 	
 

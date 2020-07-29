@@ -2,23 +2,24 @@ package com.rab3tech.listener;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import javax.sql.DataSource;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 @WebListener
 public class DBDataLoader implements ServletContextListener {
@@ -27,18 +28,16 @@ public class DBDataLoader implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
 		System.out.println("()@(@(@*(contextInitialized@*@*@@*");
 		// This is new code to access Spring Root Web Application Context
-		// ServletContext servletContext=arg0.getServletContext();
-		/// ApplicationContext
-		// applicationContext=WebApplicationContextUtils.getWebApplicationContext(servletContext);
-		// ProfileDao
-		// profileDao=applicationContext.getBean(ProfileDaoImpl.class);
+		 ServletContext servletContext=arg0.getServletContext();
+		 ApplicationContext applicationContext=WebApplicationContextUtils.getWebApplicationContext(servletContext);
 		try {
 			File file = ResourceUtils.getFile("classpath:db/script.sql");
 			String content = FileUtils.readFileToString(file);
 			Connection conn = null;
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/vehicle_db", "root", "mysql@1234");
+				DataSource dataSource=(DataSource)applicationContext.getBean("pdataSource");
+				conn = dataSource.getConnection();
+				System.out.println("@)()@conn@()@(@ "+conn);
 				boolean execute = false;
 				try {
 					PreparedStatement preparedStatement = conn.prepareStatement("select username from user_login_tbl");
