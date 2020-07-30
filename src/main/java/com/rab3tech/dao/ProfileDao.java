@@ -36,4 +36,6 @@ public interface ProfileDao {
 
 	List<ProfileDTO> findAllWithPhoto();
 
+	String updatePhoto(ProfileDTO profileDTO);
+
 }

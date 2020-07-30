@@ -9,6 +9,12 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1"
     <welcome-file>login.jsp</welcome-file>
   </welcome-file-list> -->
   
+  
+  <context-param>
+              <param-name>contextConfigLocation</param-name>
+              <param-value>/WEB-INF/purushotam-context.xml</param-value>
+  </context-param>
+  
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 </listener>
@@ -20,7 +26,6 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1"
               <param-name>contextConfigLocation</param-name>
               <param-value>/WEB-INF/rab3tech-servlet.xml</param-value>
          </init-param>
-         
         <load-on-startup>1</load-on-startup> <!-- Eager loaded -->
 
 	<multipart-config>
