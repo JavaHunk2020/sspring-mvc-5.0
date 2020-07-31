@@ -1,4 +1,4 @@
-package com.rab3tech.dao;
+package com.rab3tech.controller.dto;
 
 import java.sql.Timestamp;
 import java.util.HashSet;

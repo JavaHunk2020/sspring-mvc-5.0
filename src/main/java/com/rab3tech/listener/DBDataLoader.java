@@ -21,6 +21,8 @@ import org.springframework.jdbc.datasource.init.ScriptUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.rab3tech.dao.Jammer;
+
 @WebListener
 public class DBDataLoader implements ServletContextListener {
 
@@ -30,12 +32,18 @@ public class DBDataLoader implements ServletContextListener {
 		// This is new code to access Spring Root Web Application Context
 		 ServletContext servletContext=arg0.getServletContext();
 		 ApplicationContext applicationContext=WebApplicationContextUtils.getWebApplicationContext(servletContext);
+		 
+			DataSource dataSource=(DataSource)applicationContext.getBean("pdataSource");
 		try {
 			File file = ResourceUtils.getFile("classpath:db/script.sql");
 			String content = FileUtils.readFileToString(file);
 			Connection conn = null;
 			try {
-				DataSource dataSource=(DataSource)applicationContext.getBean("pdataSource");
+				
+				System.out.println("#(&*&$^$^#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+				Jammer jammer=(Jammer)applicationContext.getBean("nagen");
+				jammer.main();
+				
 				conn = dataSource.getConnection();
 				System.out.println("@)()@conn@()@(@ "+conn);
 				boolean execute = false;

@@ -13,6 +13,10 @@
         <!-- Scanning dao for creating bean of it -->
 	<context:component-scan base-package="com.rab3tech.dao" />
 	
+	<context:component-scan base-package="com.rab3tech.service" />
+	
+	
+	
 	<!-- Loading properties file in XML
 	  or inside spring container
 	 -->

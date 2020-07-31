@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.rab3tech.dao.ProfileDTO;
-import com.rab3tech.dao.ProfileDao;
+import com.rab3tech.controller.dto.ProfileDTO;
+import com.rab3tech.service.ProfileService;
 import com.rab3tech.utils.Utils;
 
 //CTR=SHIFT+O
@@ -23,7 +23,7 @@ import com.rab3tech.utils.Utils;
 public class CustomerController {
 
 	@Autowired
-	private ProfileDao profileDao;
+	private ProfileService profileService;
 	
 	@Autowired
 	private MailSender mailSender;
@@ -34,7 +34,7 @@ public class CustomerController {
 		ProfileDTO profileDTO=new ProfileDTO();
 		profileDTO.setFile(file);
 		profileDTO.setUsername(username);
-		profileDao.updatePhoto(profileDTO);
+		profileService.updatePhoto(profileDTO);
 		
 		SimpleMailMessage email = new SimpleMailMessage();
 		email.setTo(username);
@@ -50,20 +50,20 @@ public class CustomerController {
 	@GetMapping("/iprofiles")
 	public String iprofiles(Model model) {
 		// I need to fetch whole profiles data from database
-		List<ProfileDTO> profileDTOs = profileDao.findAllWithPhoto();
+		List<ProfileDTO> profileDTOs = profileService.findAllWithPhoto();
 		// adding profileDTO object inside request scope with namemagic
 		model.addAttribute("profileDTOs", profileDTOs);
-		model.addAttribute("listoptions", profileDao.findAllQualification());
+		model.addAttribute("listoptions", profileService.findAllQualification());
 		return "iprofiles";
 	}
 
 	@GetMapping("/profiles")
 	public String profiles(Model model) {
 		// I need to fetch whole profiles data from database
-		List<ProfileDTO> profileDTOs = profileDao.findAll();
+		List<ProfileDTO> profileDTOs = profileService.findAll();
 		// adding profileDTO object inside request scope with namemagic
 		model.addAttribute("profileDTOs", profileDTOs);
-		model.addAttribute("listoptions", profileDao.findAllQualification());
+		model.addAttribute("listoptions", profileService.findAllQualification());
 		return "profiles";
 	}
 
@@ -78,36 +78,36 @@ public class CustomerController {
 	public String filterProfile(@RequestParam("filterText") String  filterText,Model model) {
 		List<ProfileDTO> profileDTOs = null;
 		if (!"Select".equalsIgnoreCase(filterText)) {
-			profileDTOs = profileDao.filterProfiles(filterText);
+			profileDTOs = profileService.filterProfiles(filterText);
 		} else {
-			profileDTOs = profileDao.findAll();
+			profileDTOs = profileService.findAll();
 		}
 		// adding profileDTO object inside request scope with namemagic
-		model.addAttribute("listoptions", profileDao.findAllQualification());
+		model.addAttribute("listoptions", profileService.findAllQualification());
 		model.addAttribute("profileDTOs", profileDTOs);
 		return "profiles";
 	}
 
 	@GetMapping("/deleteProfile")
 	public String deleteProfile(@RequestParam("username") String  username) {
-		profileDao.deleteByUsername(username);
+		profileService.deleteByUsername(username);
 		return "redirect:/profiles"; // Here we are by passing jsp and it will
 										// go another action=/profiles
 	}
 
 	@GetMapping("/editProfile")
 	public String editProfileAction(@RequestParam("username") String  username,Model model) {
-		ProfileDTO profileDTO = profileDao.findByUsername(username);
+		ProfileDTO profileDTO = profileService.findByUsername(username);
 		model.addAttribute("profileDTO", profileDTO);
 		return "esignup";
 	}
 
 	@GetMapping("/searchProfile")
 	public String searchProfile(@RequestParam("search") String  search,Model model) {
-		List<ProfileDTO> profileDTOs = profileDao.searchProfiles(search);
+		List<ProfileDTO> profileDTOs = profileService.searchProfiles(search);
 		// adding profileDTO object inside request scope with namemagic
 		model.addAttribute("profileDTOs", profileDTOs);
-		model.addAttribute("listoptions", profileDao.findAllQualification());
+		model.addAttribute("listoptions", profileService.findAllQualification());
 		return "profiles";
 	}
 	
@@ -125,7 +125,7 @@ public class CustomerController {
 			String gender=req.getParameter("gender");
 			String photo=req.getParameter("photo");
 			ProfileDTO profileDTO=new  ProfileDTO(username, "", name, email, mobile, gender, photo, qualification);*/
-			profileDao.updateSignup(profileDTO);
+		profileService.updateSignup(profileDTO);
 			return "redirect:/profiles"; 
 	}
 	
@@ -148,7 +148,7 @@ public class CustomerController {
 		profileDTO.setPassword(password);
 		profileDTO.setUsername(profileDTO.getEmail());
 		//ProfileDTO profileDTO = new ProfileDTO(username, password, name, email, mobile, gender, photo, qualification);
-		profileDao.createSignup(profileDTO);
+		profileService.createSignup(profileDTO);
 		model.addAttribute("hmmmm", "Hi , " + profileDTO.getName() + " , you have done signup successfully!!!!!!!!!!!");
 		return "login";
 	}
@@ -156,10 +156,10 @@ public class CustomerController {
 	@GetMapping("/sortProfile")
 	protected String sortProfile(@RequestParam("sort") String  sort,Model model) {
 		// I need to fetch whole profiles data from database
-		List<ProfileDTO> profileDTOs = profileDao.sortProfiles(sort);
+		List<ProfileDTO> profileDTOs = profileService.sortProfiles(sort);
 		// adding profileDTO object inside request scope with namemagic
 		model.addAttribute("profileDTOs", profileDTOs);
-		model.addAttribute("listoptions", profileDao.findAllQualification());
+		model.addAttribute("listoptions", profileService.findAllQualification());
 		return "profiles";
 	}
 	
@@ -170,7 +170,7 @@ public class CustomerController {
 		profileDTO.setPassword(password);
 		profileDTO.setUsername(profileDTO.getEmail());
 		//ProfileDTO profileDTO = new ProfileDTO(username, password, name, email, mobile, gender, photo, qualification);
-		profileDao.icreateSignup(profileDTO);
+		profileService.icreateSignup(profileDTO);
 		model.addAttribute("hmmmm", "Hi , " + profileDTO.getName() + " , you have done signup successfully!!!!!!!!!!!");
 		return "login";
 	}

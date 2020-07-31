@@ -14,6 +14,9 @@ import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.jdbc.support.lob.LobHandler;
 import org.springframework.stereotype.Repository;
+
+import com.rab3tech.controller.dto.ProfileDTO;
+import com.rab3tech.dao.entity.ProfileEntity;
 //Object which is present inside spring container is called bean
 @Repository //@Controller
 public class ProfileDaoImpl implements ProfileDao {
@@ -33,7 +36,7 @@ public class ProfileDaoImpl implements ProfileDao {
 	}
 */	
 	@Override
-	public String updateSignup(ProfileDTO profileDTO) {
+	public String updateSignup(ProfileEntity profileDTO) {
 		String sql = "update user_login_tbl set name=?,email=?,qualification=?,mobile=?,photo=?,gender=? where username=?";
 		Object data[]={ profileDTO.getName(),profileDTO.getEmail(),profileDTO.getQualification(),profileDTO.getMobile(),
 				profileDTO.getPhoto(),profileDTO.getGender(),profileDTO.getUsername()};
@@ -42,7 +45,7 @@ public class ProfileDaoImpl implements ProfileDao {
 	}
 
 	@Override
-	public String createSignup(ProfileDTO profileDTO) {
+	public String createSignup(ProfileEntity profileDTO) {
 		String sql = "insert into  user_login_tbl(username,password,name,email,qualification,mobile,photo,gender,createdate) values(?,?,?,?,?,?,?,?,?)";
 		Object data[]={profileDTO.getUsername(),profileDTO.getPassword(),profileDTO.getName(),profileDTO.getEmail(),
 				profileDTO.getQualification(),profileDTO.getMobile(),profileDTO.getPhoto(),profileDTO.getGender(),new Timestamp(new Date().getTime())};
@@ -52,7 +55,7 @@ public class ProfileDaoImpl implements ProfileDao {
 	
 	
 	@Override
-	public String updatePhoto(ProfileDTO profileDTO) {
+	public String updatePhoto(ProfileEntity profileDTO) {
 		byte[] image=null;
 		try {
 			image=profileDTO.getFile().getBytes();
@@ -74,7 +77,7 @@ public class ProfileDaoImpl implements ProfileDao {
 
 	
 	@Override
-	public String icreateSignup(ProfileDTO profileDTO) {
+	public String icreateSignup(ProfileEntity profileDTO) {
 		byte[] image=null;
 		try {
 			image=profileDTO.getFile().getBytes();
@@ -97,10 +100,10 @@ public class ProfileDaoImpl implements ProfileDao {
 	}
 
 	@Override
-	public List<ProfileDTO> sortProfiles(String sort) {
+	public List<ProfileEntity> sortProfiles(String sort) {
 		String sql = "select username,password,name,email,qualification,mobile,photo,gender,createdate from user_login_tbl order by email "
 				+ sort;
-		List<ProfileDTO> profileDTOs=jdbcTemplate.query(sql,new BeanPropertyRowMapper(ProfileDTO.class));
+		List<ProfileEntity> profileDTOs=jdbcTemplate.query(sql,new BeanPropertyRowMapper(ProfileEntity.class));
 		return profileDTOs;
 	}
 	
@@ -114,46 +117,46 @@ public class ProfileDaoImpl implements ProfileDao {
 	
 	
 	@Override
-	public List<ProfileDTO>  filterProfiles(String filterText) {
+	public List<ProfileEntity>  filterProfiles(String filterText) {
 		// I need to fetch whole profiles data from database
 		String sql = "select username,password,name,email,qualification,mobile,photo,gender,createdate from user_login_tbl  where qualification = ?";
 		Object[] data={filterText};
-		List<ProfileDTO> profileDTOs=jdbcTemplate.query(sql,data,new BeanPropertyRowMapper(ProfileDTO.class));
+		List<ProfileEntity> profileDTOs=jdbcTemplate.query(sql,data,new BeanPropertyRowMapper(ProfileEntity.class));
 		return profileDTOs;
 	}
 
 	@Override
-	public List<ProfileDTO> searchProfiles(String search) {
+	public List<ProfileEntity> searchProfiles(String search) {
 		// I need to fetch whole profiles data from database
 		String sql = "select username,password,name,email,qualification,mobile,photo,gender,createdate from user_login_tbl  where name like '%"
 				+ search + "%'  or  qualification like '%" + search + "%'";
-		List<ProfileDTO> profileDTOs=jdbcTemplate.query(sql,new BeanPropertyRowMapper(ProfileDTO.class));
+		List<ProfileEntity> profileDTOs=jdbcTemplate.query(sql,new BeanPropertyRowMapper(ProfileEntity.class));
 		return profileDTOs;
 	}
 
 	@Override
-	public List<ProfileDTO> findAll() {
+	public List<ProfileEntity> findAll() {
 		String sql = "select username,password,name,email,qualification,mobile,photo,gender,createdate from user_login_tbl";
-		List<ProfileDTO> profileDTOs=jdbcTemplate.query(sql,new BeanPropertyRowMapper(ProfileDTO.class));
+		List<ProfileEntity> profileDTOs=jdbcTemplate.query(sql,new BeanPropertyRowMapper(ProfileEntity.class));
 		return profileDTOs;
 	}
 	
 	
 	@Override
-	public ProfileDTO findByEmail(String pemail) {
+	public ProfileEntity findByEmail(String pemail) {
 		String sql = "select username,password,name,email,qualification,mobile,photo,gender,createdate from user_login_tbl where email=?";
 		Object[] data={pemail};
-		ProfileDTO profileDTO=jdbcTemplate.queryForObject(sql, data,new BeanPropertyRowMapper<>(ProfileDTO.class));
+		ProfileEntity profileDTO=jdbcTemplate.queryForObject(sql, data,new BeanPropertyRowMapper<>(ProfileEntity.class));
 		return profileDTO;
 		/*List<ProfileDTO> profileDTOs=jdbcTemplate.query(sql,data,new BeanPropertyRowMapper(ProfileDTO.class));
 		return profileDTOs.get(0);*/
 	}
 
 	@Override
-	public ProfileDTO findByUsername(String pusername) {
+	public ProfileEntity findByUsername(String pusername) {
 		String sql = "select username,password,name,email,qualification,mobile,photo,gender,createdate from user_login_tbl where username=?";
 		Object[] data={pusername};
-		ProfileDTO profileDTO=jdbcTemplate.queryForObject(sql, data,new BeanPropertyRowMapper<>(ProfileDTO.class));
+		ProfileEntity profileDTO=jdbcTemplate.queryForObject(sql, data,new BeanPropertyRowMapper<>(ProfileEntity.class));
 		return profileDTO;
 	}
 	
@@ -166,9 +169,9 @@ public class ProfileDaoImpl implements ProfileDao {
 	
 
 	@Override
-	public List<ProfileDTO> findAllWithPhoto() {
+	public List<ProfileEntity> findAllWithPhoto() {
 		String sql = "select username,password,name,email,qualification,mobile,gender,createdate from iuser_login_tbl";
-		List<ProfileDTO> profileDTOs=jdbcTemplate.query(sql,new BeanPropertyRowMapper(ProfileDTO.class));
+		List<ProfileEntity> profileDTOs=jdbcTemplate.query(sql,new BeanPropertyRowMapper(ProfileEntity.class));
 		return profileDTOs;
 	}
 	
@@ -195,12 +198,12 @@ public class ProfileDaoImpl implements ProfileDao {
 	}
 
 	@Override
-	public ProfileDTO authUser(String pusername, String ppassword) {
-		ProfileDTO profileDTO = null;
+	public ProfileEntity authUser(String pusername, String ppassword) {
+		ProfileEntity profileDTO = null;
 		String sql = "select username,password,name,email,qualification,mobile,photo,gender,createdate from user_login_tbl where username=? and password=?";
 		Object[] data = { pusername, ppassword };
 		try {
-			profileDTO = jdbcTemplate.queryForObject(sql, data, new BeanPropertyRowMapper<>(ProfileDTO.class));
+			profileDTO = jdbcTemplate.queryForObject(sql, data, new BeanPropertyRowMapper<>(ProfileEntity.class));
 		} catch (DataAccessException e) {
 			System.out.println(e.getMessage());
 		}
